@@ -23,3 +23,36 @@ This node can run object detectors like [YOLOv3](https://pjreddie.com/darknet/yo
 * `network.class_names` - a path to a file with names of classes the network can detect (1 per line)
 * `detection.threshold` - Minimum probability of a detection to be published
 * `detection.nms_threshold` - Non-maximal Suppression threshold - controls filtering of overlapping boxes
+
+### Example
+
+Download `YOLOv3-tiny`.
+
+```
+wget https://github.com/pjreddie/darknet/blob/f86901f6177dfc6116360a13cc06ab680e0c86b0/cfg/yolov3-tiny.cfg
+wget https://pjreddie.com/media/files/yolov3.weights
+wget https://raw.githubusercontent.com/pjreddie/darknet/c6afc7ff1499fbbe64069e1843d7929bd7ae2eaa/data/coco.names
+```
+
+Save the following as `detector_node_params.yaml`
+
+```yaml
+/**:
+  ros__parameters:
+    network:
+      config: "yolov3-tiny.cfg"
+      weights: "yolov3-tiny.weights"
+      class_names: "coco.names"
+    detection:
+      threshold: 0.25
+      nms_threshold: 0.45
+```
+
+Then run the node.
+
+```
+ros2 run openrobotics_darknet_ros detector_node __params:=detector_node_params.yaml
+```
+
+The node is now running.
+Publish images on `~/images` to get the node to detect objects.
