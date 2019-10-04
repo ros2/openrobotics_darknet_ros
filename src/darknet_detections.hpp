@@ -14,7 +14,9 @@
 
 #include <darknet_vendor/darknet_vendor.h>
 
-namespace openrobotics_darknet_ros
+namespace openrobotics
+{
+namespace darknet_ros
 {
 /// \brief RAII wrapper around darknet type `detections`
 class DarknetDetections
@@ -34,5 +36,6 @@ public:
   detection * detections_;
   const size_t num_detections_ = 0;
 };
-}  // namespace openrobotics_darknet_ros
+}  // namespace darknet_ros
+}  // namespace openrobotics
 

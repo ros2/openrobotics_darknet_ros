@@ -21,7 +21,9 @@
 #include <rcl_interfaces/msg/parameter_descriptor.hpp>
 #include <rclcpp/parameter_value.hpp>
 
-namespace openrobotics_darknet_ros
+namespace openrobotics
+{
+namespace darknet_ros
 {
 class DarknetNodePrivate
 {
@@ -151,8 +153,9 @@ DarknetNode::DarknetNode(rclcpp::NodeOptions options)
 DarknetNode::~DarknetNode()
 {
 }
-}  // namespace openrobotics_darknet_ros
+}  // namespace darknet_ros
+}  // namespace openrobotics
 
 #include "rclcpp_components/register_node_macro.hpp"
 
-RCLCPP_COMPONENTS_REGISTER_NODE(openrobotics_darknet_ros::DarknetNode)
+RCLCPP_COMPONENTS_REGISTER_NODE(openrobotics::darknet_ros::DarknetNode)

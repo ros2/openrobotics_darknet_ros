@@ -16,7 +16,7 @@
 
 #include <openrobotics_darknet_ros/parse.hpp>
 
-using namespace openrobotics_darknet_ros;
+using namespace openrobotics::darknet_ros;
 
 TEST(parse, names_file_does_not_exist)
 {

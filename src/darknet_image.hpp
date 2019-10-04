@@ -15,7 +15,9 @@
 #include <darknet_vendor/darknet_vendor.h>
 #include <cv_bridge/cv_bridge.h>
 
-namespace openrobotics_darknet_ros
+namespace openrobotics
+{
+namespace darknet_ros
 {
 /// \brief RAII wrapper around darknet type `image`
 class DarknetImage
@@ -58,5 +60,6 @@ public:
 
   image image_;
 };
-}  // namespace openrobotics_darknet_ros
+}  // namespace darknet_ros
+}  // namespace openrobotics
 

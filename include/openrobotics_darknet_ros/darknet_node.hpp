@@ -23,7 +23,9 @@
 
 // TODO(sloretz) visibility
 
-namespace openrobotics_darknet_ros
+namespace openrobotics
+{
+namespace darknet_ros
 {
 // Forward declaration
 class DarknetNodePrivate;
@@ -39,7 +41,7 @@ public:
 private:
   std::unique_ptr<DarknetNodePrivate> impl_;
 };
-
-}  // namespace openrobotics_darknet_ros
+}  // namespace darknet_ros
+}  // namespace openrobotics
 
 #endif  // OPENROBOTICS_DARKNET_ROS__DARKNET_NODE_HPP_

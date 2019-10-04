@@ -36,7 +36,7 @@ ament_target_dependencies(darknet_node PUBLIC
   "rclcpp"
   "rclcpp_components")
 target_link_libraries(darknet_node PUBLIC openrobotics_darknet_ros)
-rclcpp_components_register_nodes(darknet_node "openrobotics_darknet_ros::DarknetNode")
+rclcpp_components_register_nodes(darknet_node "openrobotics::darknet_ros::DarknetNode")
 
 add_executable(darknet_node_main
   src/darknet_node_main.cpp)

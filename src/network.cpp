@@ -22,7 +22,9 @@
 #include "darknet_detections.hpp"
 #include "darknet_image.hpp"
 
-namespace openrobotics_darknet_ros
+namespace openrobotics
+{
+namespace darknet_ros
 {
 class NetworkPrivate
 {
@@ -168,4 +170,5 @@ Network::detect(
   // Not using num_detections because nms may have suppressed some
   return output_detections->detections.size();
 }
-}  // namespace openrobotics_darknet_ros
+}  // namespace darknet_ros
+}  // namespace openrobotics

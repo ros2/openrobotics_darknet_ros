@@ -20,7 +20,7 @@ int main(int argc, char **argv)
   rclcpp::init(argc, argv);
 
   rclcpp::NodeOptions options;
-  auto darknet_node = std::make_shared<openrobotics_darknet_ros::DarknetNode>(options);
+  auto darknet_node = std::make_shared<openrobotics::darknet_ros::DarknetNode>(options);
 
   rclcpp::spin(darknet_node);
 

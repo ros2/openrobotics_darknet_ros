@@ -23,7 +23,7 @@ TEST(network, config_does_not_exist)
   std::vector<std::string> classes{"foo", "bar"};
 
   try {
-    openrobotics_darknet_ros::Network network(config, weights, classes);
+    openrobotics::darknet_ros::Network network(config, weights, classes);
     ASSERT_TRUE(false);
   } catch (const std::invalid_argument &) {
   }

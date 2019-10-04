@@ -17,7 +17,9 @@
 #include <fstream>
 #include <sstream>
 
-namespace openrobotics_darknet_ros
+namespace openrobotics
+{
+namespace darknet_ros
 {
 std::vector<std::string>
 parse_class_names(const std::string & filename)
@@ -43,5 +45,6 @@ parse_class_names(const std::string & filename)
   }
   return class_names;
 }
-}  // namespace openrobotics_darknet_ros
+}  // namespace darknet_ros
+}  // namespace openrobotics
 
