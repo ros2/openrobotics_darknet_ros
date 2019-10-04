@@ -16,7 +16,7 @@
 
 #include <openrobotics_darknet_ros/network.hpp>
 
-TEST(network, does_not_exist)
+TEST(network, config_does_not_exist)
 {
   const std::string config = "does_not_exist.cfg";
   const std::string weights = "does_not_exist.weights";
