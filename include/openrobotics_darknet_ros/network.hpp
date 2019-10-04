@@ -22,7 +22,7 @@
 #include <sensor_msgs/msg/image.hpp>
 #include <vision_msgs/msg/detection2_d_array.hpp>
 
-// TODO(sloretz) visibility
+#include <openrobotics_darknet_ros/visibility.hpp>
 
 namespace openrobotics
 {
@@ -38,11 +38,13 @@ public:
   /// \param[in] config_file Path to a file describing the network
   /// \param[in] weights_file Path to a file containing the network's weights
   /// \param[in] classes Ordered list of class names the network can predict
+  DARKNET_ROS_PUBLIC
   Network(
     const std::string & config_file,
     const std::string & weights_file,
     const std::vector<std::string> & classes);
 
+  DARKNET_ROS_PUBLIC
   ~Network();
 
   /// \brief Detect objects in image
@@ -53,6 +55,7 @@ public:
   ///   the box with the lower objectness score is discarded.
   /// \param[out] output_detections Things detected in the image (does not set source_img)
   /// \return number of objects detected
+  DARKNET_ROS_PUBLIC
   size_t
   detect(
     const sensor_msgs::msg::Image & image,

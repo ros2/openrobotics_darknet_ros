@@ -20,8 +20,8 @@
 #include <rclcpp/node.hpp>
 
 #include <openrobotics_darknet_ros/network.hpp>
+#include <openrobotics_darknet_ros/visibility_node.hpp>
 
-// TODO(sloretz) visibility
 
 namespace openrobotics
 {
@@ -34,8 +34,10 @@ class DarknetNode : public rclcpp::Node
 {
 public:
   /// \brief Create a node that uses ROS parameters to get the network
+  DARKNET_ROS_NODE_PUBLIC
   explicit DarknetNode(rclcpp::NodeOptions options);
 
+  DARKNET_ROS_NODE_PUBLIC
   virtual ~DarknetNode();
 
 private:

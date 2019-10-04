@@ -18,7 +18,7 @@
 #include <string>
 #include <vector>
 
-// TODO(sloretz) visibility
+#include <openrobotics_darknet_ros/visibility.hpp>
 
 namespace openrobotics
 {
@@ -27,6 +27,7 @@ namespace darknet_ros
 /// \brief Read file containing class names, one per line
 /// \param[in] filename a path to a file containing classes a network can detect
 /// \return a container with all of the class names detected
+DARKNET_ROS_PUBLIC
 std::vector<std::string>
 parse_class_names(const std::string & filename);
 }  // namespace darknet_ros

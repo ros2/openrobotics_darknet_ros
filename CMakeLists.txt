@@ -22,7 +22,7 @@ add_library(openrobotics_darknet_ros SHARED
   src/network.cpp
   src/parse.cpp)
 target_include_directories(openrobotics_darknet_ros PUBLIC include)
-target_compile_definitions(openrobotics_darknet_ros PRIVATE "OPENROBOTICS_DARKNET_ROS_BUILDING_DLL")
+target_compile_definitions(openrobotics_darknet_ros PRIVATE "DARKNET_ROS_BUILDING_DLL")
 ament_target_dependencies(openrobotics_darknet_ros
   cv_bridge
   darknet_vendor
@@ -31,7 +31,7 @@ ament_target_dependencies(openrobotics_darknet_ros
 
 add_library(darknet_node SHARED
   src/darknet_node.cpp)
-target_compile_definitions(darknet_node PRIVATE "DARKNET_NODE_BUILDING_DLL")
+target_compile_definitions(darknet_node PRIVATE "DARKNET_ROS_NODE_BUILDING_DLL")
 ament_target_dependencies(darknet_node PUBLIC
   "rclcpp"
   "rclcpp_components")
