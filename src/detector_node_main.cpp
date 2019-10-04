@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <openrobotics_darknet_ros/darknet_node.hpp>
+#include <openrobotics_darknet_ros/detector_node.hpp>
 #include <rclcpp/rclcpp.hpp>
 
 int main(int argc, char **argv)
@@ -20,9 +20,9 @@ int main(int argc, char **argv)
   rclcpp::init(argc, argv);
 
   rclcpp::NodeOptions options;
-  auto darknet_node = std::make_shared<openrobotics::darknet_ros::DarknetNode>(options);
+  auto detector_node = std::make_shared<openrobotics::darknet_ros::DetectorNode>(options);
 
-  rclcpp::spin(darknet_node);
+  rclcpp::spin(detector_node);
 
   rclcpp::shutdown();
   return 0;

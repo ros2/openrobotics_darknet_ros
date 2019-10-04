@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <openrobotics_darknet_ros/darknet_node.hpp>
+#include <openrobotics_darknet_ros/detector_node.hpp>
 #include <openrobotics_darknet_ros/network.hpp>
 #include <openrobotics_darknet_ros/parse.hpp>
 
@@ -25,7 +25,7 @@ namespace openrobotics
 {
 namespace darknet_ros
 {
-class DarknetNodePrivate
+class DetectorNodePrivate
 {
 public:
 
@@ -82,8 +82,8 @@ public:
   rcl_interfaces::msg::ParameterDescriptor nms_threshold_desc_;
 };
 
-DarknetNode::DarknetNode(rclcpp::NodeOptions options)
-  : rclcpp::Node("darknet_node", options), impl_(new DarknetNodePrivate)
+DetectorNode::DetectorNode(rclcpp::NodeOptions options)
+  : rclcpp::Node("detector_node", options), impl_(new DetectorNodePrivate)
 {
   // Read-only input parameters: cfg, weights, classes
   rcl_interfaces::msg::ParameterDescriptor network_cfg_desc;
@@ -134,7 +134,7 @@ DarknetNode::DarknetNode(rclcpp::NodeOptions options)
     impl_->nms_threshold_desc_).get<double>();
 
   set_on_parameters_set_callback(
-    std::bind(&DarknetNodePrivate::on_parameters_change, &*impl_, std::placeholders::_1));
+    std::bind(&DetectorNodePrivate::on_parameters_change, &*impl_, std::placeholders::_1));
 
   // TODO(sloretz) raise if user tried to initialize node with undeclared parameters
 
@@ -147,10 +147,10 @@ DarknetNode::DarknetNode(rclcpp::NodeOptions options)
 
   // Input topic ~/images [sensor_msgs/msg/Image]
   impl_->image_sub_ = this->create_subscription<sensor_msgs::msg::Image>(
-      "~/images", 12, std::bind(&DarknetNodePrivate::on_image_rx, &*impl_, std::placeholders::_1));
+      "~/images", 12, std::bind(&DetectorNodePrivate::on_image_rx, &*impl_, std::placeholders::_1));
 }
 
-DarknetNode::~DarknetNode()
+DetectorNode::~DetectorNode()
 {
 }
 }  // namespace darknet_ros
@@ -158,4 +158,4 @@ DarknetNode::~DarknetNode()
 
 #include "rclcpp_components/register_node_macro.hpp"
 
-RCLCPP_COMPONENTS_REGISTER_NODE(openrobotics::darknet_ros::DarknetNode)
+RCLCPP_COMPONENTS_REGISTER_NODE(openrobotics::darknet_ros::DetectorNode)

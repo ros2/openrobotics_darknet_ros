@@ -29,19 +29,19 @@ ament_target_dependencies(openrobotics_darknet_ros
   sensor_msgs
   vision_msgs)
 
-add_library(darknet_node SHARED
-  src/darknet_node.cpp)
-target_compile_definitions(darknet_node PRIVATE "DARKNET_ROS_NODE_BUILDING_DLL")
-ament_target_dependencies(darknet_node PUBLIC
+add_library(detector_node SHARED
+  src/detector_node.cpp)
+target_compile_definitions(detector_node PRIVATE "DARKNET_ROS_NODE_BUILDING_DLL")
+ament_target_dependencies(detector_node PUBLIC
   "rclcpp"
   "rclcpp_components")
-target_link_libraries(darknet_node PUBLIC openrobotics_darknet_ros)
-rclcpp_components_register_nodes(darknet_node "openrobotics::darknet_ros::DarknetNode")
+target_link_libraries(detector_node PUBLIC openrobotics_darknet_ros)
+rclcpp_components_register_nodes(detector_node "openrobotics::darknet_ros::DetectorNode")
 
-add_executable(darknet_node_main
-  src/darknet_node_main.cpp)
-target_link_libraries(darknet_node_main darknet_node)
-set_target_properties(darknet_node_main PROPERTIES OUTPUT_NAME "darknet_node")
+add_executable(detector_node_main
+  src/detector_node_main.cpp)
+target_link_libraries(detector_node_main detector_node)
+set_target_properties(detector_node_main PROPERTIES OUTPUT_NAME "detector_node")
 
 if(BUILD_TESTING)
   find_package(ament_cmake_gtest REQUIRED)
@@ -60,12 +60,12 @@ install(TARGETS openrobotics_darknet_ros
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
-install(TARGETS darknet_node
+install(TARGETS detector_node
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
-install(TARGETS darknet_node_main
+install(TARGETS detector_node_main
   DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY include/ DESTINATION include)
