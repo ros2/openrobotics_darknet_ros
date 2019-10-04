@@ -68,8 +68,8 @@ DetectorNetwork::DetectorNetwork(
   // Make copies because of darknet's lack of const
   std::unique_ptr<char> config_mutable(new char[config_file.size() + 1]);
   std::unique_ptr<char> weights_mutable(new char[weights_file.size() + 1]);
-  snprintf(&*config_mutable, config_file.size(), "%s", config_file.c_str());
-  snprintf(&*weights_mutable, config_file.size(), "%s", weights_file.c_str());
+  snprintf(&*config_mutable, config_file.size() + 1, "%s", config_file.c_str());
+  snprintf(&*weights_mutable, config_file.size() + 1, "%s", weights_file.c_str());
 
   const int clear = 0;
   impl_->network_ = load_network(&*config_mutable, &*weights_mutable, clear);
