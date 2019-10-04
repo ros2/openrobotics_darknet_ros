@@ -30,7 +30,7 @@ Download `YOLOv3-tiny`.
 
 ```
 wget https://github.com/pjreddie/darknet/blob/f86901f6177dfc6116360a13cc06ab680e0c86b0/cfg/yolov3-tiny.cfg
-wget https://pjreddie.com/media/files/yolov3.weights
+wget https://pjreddie.com/media/files/yolov3-tiny.weights
 wget https://raw.githubusercontent.com/pjreddie/darknet/c6afc7ff1499fbbe64069e1843d7929bd7ae2eaa/data/coco.names
 ```
 
@@ -40,9 +40,9 @@ Save the following as `detector_node_params.yaml`
 /**:
   ros__parameters:
     network:
-      config: "yolov3-tiny.cfg"
-      weights: "yolov3-tiny.weights"
-      class_names: "coco.names"
+      config: "./yolov3-tiny.cfg"
+      weights: "./yolov3-tiny.weights"
+      class_names: "./coco.names"
     detection:
       threshold: 0.25
       nms_threshold: 0.45
