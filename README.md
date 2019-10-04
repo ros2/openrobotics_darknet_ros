@@ -29,7 +29,7 @@ This node can run object detectors like [YOLOv3](https://pjreddie.com/darknet/yo
 Download `YOLOv3-tiny`.
 
 ```
-wget https://github.com/pjreddie/darknet/blob/f86901f6177dfc6116360a13cc06ab680e0c86b0/cfg/yolov3-tiny.cfg
+wget https://raw.githubusercontent.com/pjreddie/darknet/f86901f6177dfc6116360a13cc06ab680e0c86b0/cfg/yolov3-tiny.cfg
 wget https://pjreddie.com/media/files/yolov3-tiny.weights
 wget https://raw.githubusercontent.com/pjreddie/darknet/c6afc7ff1499fbbe64069e1843d7929bd7ae2eaa/data/coco.names
 ```
