@@ -32,7 +32,7 @@ public:
   }
 
   detection * detections_;
-  size_t num_detections_ = 0;
+  const size_t num_detections_ = 0;
 };
 }  // namespace openrobotics_darknet_ros
 

@@ -59,7 +59,9 @@ Network::Network(
   const int clear = 0;
   impl_->network_ = load_network(&*config_mutable, &*weights_mutable, clear);
   if (nullptr == impl_->network_) {
-    throw std::invalid_argument("Failed to load network from config and weights files");
+    std::stringstream str;
+    str << "Failed to load network from " << config_file << " and " << weights_file;
+    throw std::invalid_argument(str.str());
   }
 
   // TODO(sloretz) what is this and why do examples set it?

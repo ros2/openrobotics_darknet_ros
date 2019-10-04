@@ -43,7 +43,7 @@ public:
       for (int row = 0; row < image_matrix.rows; ++row) {
         for (int column = 0; column < image_matrix.cols; ++column) {
           // Darknet stores each channel separately in R G B order
-          // Within a chanel pixels are in row-major order
+          // Within a channel pixels are in row-major order
           size_t darknet_idx = channel * height * width + row * width + column;
           image_.data[darknet_idx] = image_matrix.ptr(row, column)[channel] / 255.0f;
         }
