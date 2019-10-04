@@ -12,15 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <openrobotics_darknet_ros/detector_network.hpp>
+#include <darknet_vendor/darknet_vendor.h>
 
 #include <fstream>
+#include <memory>
 #include <sstream>
-
-#include <darknet_vendor/darknet_vendor.h>
+#include <string>
+#include <vector>
 
 #include "darknet_detections.hpp"
 #include "darknet_image.hpp"
+#include "openrobotics_darknet_ros/detector_network.hpp"
 
 namespace openrobotics
 {
@@ -46,10 +48,10 @@ public:
 };
 
 DetectorNetwork::DetectorNetwork(
-    const std::string & config_file,
-    const std::string & weights_file,
-    const std::vector<std::string> & classes)
-  : impl_(new DetectorNetworkPrivate())
+  const std::string & config_file,
+  const std::string & weights_file,
+  const std::vector<std::string> & classes)
+: impl_(new DetectorNetworkPrivate())
 {
   if (!std::ifstream(config_file)) {
     std::stringstream str;
@@ -66,8 +68,8 @@ DetectorNetwork::DetectorNetwork(
   // Make copies because of darknet's lack of const
   std::unique_ptr<char> config_mutable(new char[config_file.size() + 1]);
   std::unique_ptr<char> weights_mutable(new char[weights_file.size() + 1]);
-  strcpy(&*config_mutable, config_file.c_str());
-  strcpy(&*weights_mutable, weights_file.c_str());
+  snprintf(&*config_mutable, config_file.size(), "%s", config_file.c_str());
+  snprintf(&*weights_mutable, config_file.size(), "%s", weights_file.c_str());
 
   const int clear = 0;
   impl_->network_ = load_network(&*config_mutable, &*weights_mutable, clear);
@@ -81,14 +83,14 @@ DetectorNetwork::DetectorNetwork(
   const int batch = 1;
   set_batch_network(impl_->network_, batch);
 
-  const int num_classes_int = impl_->network_->layers[impl_->network_->n-1].classes;
+  const int num_classes_int = impl_->network_->layers[impl_->network_->n - 1].classes;
   if (num_classes_int <= 0) {
     throw std::invalid_argument("Invalid network, it expects no classes");
   }
   size_t num_classes = static_cast<size_t>(num_classes_int);
   if (num_classes != classes.size()) {
     std::stringstream str;
-    str << "DetectorNetwork expects " << num_classes << " class names but was given " << classes.size();
+    str << "DetectorNetwork expects " << num_classes << " class names but got " << classes.size();
     throw std::invalid_argument(str.str());
   }
 }
@@ -99,10 +101,10 @@ DetectorNetwork::~DetectorNetwork()
 
 size_t
 DetectorNetwork::detect(
-    const sensor_msgs::msg::Image & image_msg,
-    double threshold,
-    double nms_threshold,
-    vision_msgs::msg::Detection2DArray * output_detections)
+  const sensor_msgs::msg::Image & image_msg,
+  double threshold,
+  double nms_threshold,
+  vision_msgs::msg::Detection2DArray * output_detections)
 {
   DarknetImage orig_image(image_msg);
 
@@ -117,14 +119,14 @@ DetectorNetwork::detect(
   int num_detections = 0;
   // TODO(sloretz) what do hier, map, and relative do?
   const float hier = 0;
-  int *map = nullptr;
+  int * map = nullptr;
   const int relative = 0;
   detection * darknet_detections = get_network_boxes(
-      impl_->network_, image_msg.width, image_msg.height, threshold,
-      hier, map, relative,
-      &num_detections);
+    impl_->network_, image_msg.width, image_msg.height, threshold,
+    hier, map, relative,
+    &num_detections);
 
-  if (num_detections <= 0){
+  if (num_detections <= 0) {
     return 0;
   }
 
@@ -132,7 +134,7 @@ DetectorNetwork::detect(
 
   // Non-maximal suppression: filters overlapping bounding boxes
   if (nms_threshold > 0.0f) {
-    const int num_classes = impl_->network_->layers[impl_->network_->n-1].classes;
+    const int num_classes = impl_->network_->layers[impl_->network_->n - 1].classes;
     do_nms_sort(darknet_detections, num_detections, num_classes, nms_threshold);
   }
 

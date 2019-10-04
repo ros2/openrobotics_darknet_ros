@@ -19,10 +19,9 @@
 #include <string>
 #include <vector>
 
-#include <sensor_msgs/msg/image.hpp>
-#include <vision_msgs/msg/detection2_d_array.hpp>
-
-#include <openrobotics_darknet_ros/visibility.hpp>
+#include "openrobotics_darknet_ros/visibility.hpp"
+#include "sensor_msgs/msg/image.hpp"
+#include "vision_msgs/msg/detection2_d_array.hpp"
 
 namespace openrobotics
 {

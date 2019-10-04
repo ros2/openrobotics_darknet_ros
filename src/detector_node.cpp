@@ -12,14 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <openrobotics_darknet_ros/detector_node.hpp>
-#include <openrobotics_darknet_ros/detector_network.hpp>
-#include <openrobotics_darknet_ros/parse.hpp>
-
 #include <darknet_vendor/darknet_vendor.h>
 
-#include <rcl_interfaces/msg/parameter_descriptor.hpp>
-#include <rclcpp/parameter_value.hpp>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "openrobotics_darknet_ros/detector_node.hpp"
+#include "openrobotics_darknet_ros/detector_network.hpp"
+#include "openrobotics_darknet_ros/parse.hpp"
+#include "rcl_interfaces/msg/parameter_descriptor.hpp"
+#include "rclcpp/parameter_value.hpp"
 
 namespace openrobotics
 {
@@ -28,11 +32,10 @@ namespace darknet_ros
 class DetectorNodePrivate
 {
 public:
-
   void on_image_rx(const sensor_msgs::msg::Image::ConstSharedPtr image_msg)
   {
     vision_msgs::msg::Detection2DArray::UniquePtr detections(
-        new vision_msgs::msg::Detection2DArray);
+      new vision_msgs::msg::Detection2DArray);
     // std::cerr << "using threshold " << threshold_ << " nms " << nms_threshold_ << "\n";
     if (network_->detect(*image_msg, threshold_, nms_threshold_, &*detections)) {
       detections_pub_->publish(std::move(detections));
@@ -83,7 +86,7 @@ public:
 };
 
 DetectorNode::DetectorNode(rclcpp::NodeOptions options)
-  : rclcpp::Node("detector_node", options), impl_(new DetectorNodePrivate)
+: rclcpp::Node("detector_node", options), impl_(new DetectorNodePrivate)
 {
   // Read-only input parameters: cfg, weights, classes
   rcl_interfaces::msg::ParameterDescriptor network_cfg_desc;
@@ -139,7 +142,8 @@ DetectorNode::DetectorNode(rclcpp::NodeOptions options)
   // TODO(sloretz) raise if user tried to initialize node with undeclared parameters
 
   std::vector<std::string> class_names = parse_class_names(network_class_names_path);
-  impl_->network_.reset(new DetectorNetwork(network_config_path, network_weights_path, class_names));
+  impl_->network_.reset(
+    new DetectorNetwork(network_config_path, network_weights_path, class_names));
 
   // Ouput topic ~/detections [vision_msgs/msg/Detection2DArray]
   impl_->detections_pub_ = this->create_publisher<vision_msgs::msg::Detection2DArray>(
@@ -147,7 +151,7 @@ DetectorNode::DetectorNode(rclcpp::NodeOptions options)
 
   // Input topic ~/images [sensor_msgs/msg/Image]
   impl_->image_sub_ = this->create_subscription<sensor_msgs::msg::Image>(
-      "~/images", 12, std::bind(&DetectorNodePrivate::on_image_rx, &*impl_, std::placeholders::_1));
+    "~/images", 12, std::bind(&DetectorNodePrivate::on_image_rx, &*impl_, std::placeholders::_1));
 }
 
 DetectorNode::~DetectorNode()

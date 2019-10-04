@@ -18,7 +18,7 @@
 #include <string>
 #include <vector>
 
-#include <openrobotics_darknet_ros/visibility.hpp>
+#include "openrobotics_darknet_ros/visibility.hpp"
 
 namespace openrobotics
 {
@@ -33,4 +33,4 @@ parse_class_names(const std::string & filename);
 }  // namespace darknet_ros
 }  // namespace openrobotics
 
-#endif  // OPENROBOTICS_DARKNET_ROS__NETWORK_HPP_
+#endif  // OPENROBOTICS_DARKNET_ROS__PARSE_HPP_

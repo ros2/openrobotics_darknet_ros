@@ -14,9 +14,12 @@
 
 #include <gtest/gtest.h>
 
-#include <openrobotics_darknet_ros/parse.hpp>
+#include <string>
+#include <vector>
 
-using namespace openrobotics::darknet_ros;
+#include "openrobotics_darknet_ros/parse.hpp"
+
+using openrobotics::darknet_ros::parse_class_names;
 
 TEST(parse, names_file_does_not_exist)
 {

@@ -44,7 +44,9 @@ target_link_libraries(detector_node_main detector_node)
 set_target_properties(detector_node_main PROPERTIES OUTPUT_NAME "detector_node")
 
 if(BUILD_TESTING)
-  find_package(ament_cmake_gtest REQUIRED)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
+
   ament_add_gtest(test_parser test/test_parser.cpp
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/test/")
   target_link_libraries(test_parser openrobotics_darknet_ros)

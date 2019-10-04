@@ -14,7 +14,10 @@
 
 #include <gtest/gtest.h>
 
-#include <openrobotics_darknet_ros/detector_network.hpp>
+#include <string>
+#include <vector>
+
+#include "openrobotics_darknet_ros/detector_network.hpp"
 
 TEST(network, config_does_not_exist)
 {

@@ -12,8 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifndef DARKNET_IMAGE_HPP_
+#define DARKNET_IMAGE_HPP_
+
 #include <darknet_vendor/darknet_vendor.h>
 #include <cv_bridge/cv_bridge.h>
+
+#include <memory>
 
 namespace openrobotics
 {
@@ -24,7 +29,8 @@ class DarknetImage
 {
 public:
   /// \brief Steal ownership of image
-  explicit DarknetImage(image darknet_image) : image_(darknet_image)
+  explicit DarknetImage(image darknet_image)
+  : image_(darknet_image)
   {
   }
 
@@ -62,4 +68,4 @@ public:
 };
 }  // namespace darknet_ros
 }  // namespace openrobotics
-
+#endif  // DARKNET_IMAGE_HPP_

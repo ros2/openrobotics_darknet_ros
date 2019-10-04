@@ -11,6 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+//
+#ifndef DARKNET_DETECTIONS_HPP_
+#define DARKNET_DETECTIONS_HPP_
 
 #include <darknet_vendor/darknet_vendor.h>
 
@@ -24,7 +27,7 @@ class DarknetDetections
 public:
   /// \brief Steal ownership of detections
   DarknetDetections(detection * darknet_detections, size_t num_detections)
-    : detections_(darknet_detections), num_detections_(num_detections)
+  : detections_(darknet_detections), num_detections_(num_detections)
   {
   }
 
@@ -38,4 +41,4 @@ public:
 };
 }  // namespace darknet_ros
 }  // namespace openrobotics
-
+#endif  // DARKNET_DETECTIONS_HPP_

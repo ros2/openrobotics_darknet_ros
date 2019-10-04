@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <openrobotics_darknet_ros/detector_node.hpp>
-#include <rclcpp/rclcpp.hpp>
+#include <memory>
 
-int main(int argc, char **argv)
+#include "openrobotics_darknet_ros/detector_node.hpp"
+#include "rclcpp/rclcpp.hpp"
+
+int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
 
