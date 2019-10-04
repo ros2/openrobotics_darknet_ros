@@ -39,7 +39,7 @@ public:
   // darknet network
   network * network_ = nullptr;
   // Classes the network can detect
-  std::vector<std::string> classes_;
+  std::vector<std::string> class_names_;
 };
 
 Network::Network(
@@ -48,7 +48,7 @@ Network::Network(
     const std::vector<std::string> & classes)
   : impl_(new NetworkPrivate())
 {
-  impl_->classes_ = classes;
+  impl_->class_names_ = classes;
 
   // Make copies because of darknet's lack of const
   std::unique_ptr<char> config_mutable(new char[config_file.size() + 1]);
@@ -130,18 +130,16 @@ Network::detect(
     auto & detection_ros = output_detections->detections.back();
 
     // Copy probabilities of each class
-    detection_ros.results.reserve(detection.classes);
-    bool has_non_zero_probability = false;
     for (int cls = 0; cls < detection.classes; ++cls) {
-      detection_ros.results.emplace_back();
-      detection_ros.results.back().id = cls;
-      detection_ros.results.back().score = detection.prob[cls];
       if (detection.prob[cls] > 0.0f) {
-        has_non_zero_probability = true;
+        detection_ros.results.emplace_back();
+        auto & hypothesis = detection_ros.results.back();
+        hypothesis.id = impl_->class_names_.at(cls);
+        hypothesis.score = detection.prob[cls];
       }
     }
 
-    if (!has_non_zero_probability) {
+    if (detection_ros.results.empty()) {
       // nms suppressed this detection
       output_detections->detections.pop_back();
       continue;
