@@ -14,6 +14,7 @@
 
 #include <openrobotics_darknet_ros/network.hpp>
 
+#include <fstream>
 #include <sstream>
 
 #include <darknet_vendor/darknet_vendor.h>
@@ -48,6 +49,16 @@ Network::Network(
     const std::vector<std::string> & classes)
   : impl_(new NetworkPrivate())
 {
+  if (!std::ifstream(config_file)) {
+    std::stringstream str;
+    str << "Could not open " << config_file;
+    throw std::invalid_argument(str.str());
+  } else if (!std::ifstream(weights_file)) {
+    std::stringstream str;
+    str << "Could not open " << weights_file;
+    throw std::invalid_argument(str.str());
+  }
+
   impl_->class_names_ = classes;
 
   // Make copies because of darknet's lack of const

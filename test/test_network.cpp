@@ -12,28 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <gtest/gtest.h>
+
 #include <openrobotics_darknet_ros/network.hpp>
 
-TEST(network, simple_detection)
+TEST(network, does_not_exist)
 {
-  // TODO(sloretz) load config
-  std::string config;
-  // TODO(sloretz) load weights
-  std::string weights;
-  // TODO(sloretz) load classes
+  const std::string config = "does_not_exist.cfg";
+  const std::string weights = "does_not_exist.weights";
   std::vector<std::string> classes{"foo", "bar"};
 
-  openrobotics_darknet_ros::Network network(config, weights, classes);
-
-  // TODO(sloretz) create image
-  sensor_msgs::msg::Image input_image;
-  double threshold = 0.5;
-  vision_msgs::msg::Detection2DArray detections;
-  const size_t num_detections = network.detect(input_image, threshold, &detections);
-
-  ASSERT_EQ(1, num_detections);
-  ASSERT_EQ(detections.header, input_image.header);
-  ASSERT_LE(0.5, detections.results.at(0).score);
-  // TODO(slorez) bouding box
-  // TODO(sloretz) source_img empty
+  try {
+    openrobotics_darknet_ros::Network network(config, weights, classes);
+    ASSERT_TRUE(false);
+  } catch (const std::invalid_argument &) {
+  }
 }

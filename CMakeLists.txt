@@ -48,6 +48,9 @@ if(BUILD_TESTING)
   ament_add_gtest(test_parser test/test_parser.cpp
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/test/")
   target_link_libraries(test_parser openrobotics_darknet_ros)
+
+  ament_add_gtest(test_network test/test_network.cpp)
+  target_link_libraries(test_network openrobotics_darknet_ros)
 endif()
 
 ament_export_libraries(openrobotics_darknet_ros)
