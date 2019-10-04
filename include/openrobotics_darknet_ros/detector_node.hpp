@@ -12,14 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef OPENROBOTICS_DARKNET_ROS__DARKNET_NODE_HPP_
-#define OPENROBOTICS_DARKNET_ROS__DARKNET_NODE_HPP_
+#ifndef OPENROBOTICS_DARKNET_ROS__DETECTOR_NODE_HPP_
+#define OPENROBOTICS_DARKNET_ROS__DETECTOR_NODE_HPP_
 
 #include <memory>
 #include <string>
 #include <rclcpp/node.hpp>
 
-#include <openrobotics_darknet_ros/network.hpp>
 #include <openrobotics_darknet_ros/visibility_node.hpp>
 
 
@@ -46,4 +45,4 @@ private:
 }  // namespace darknet_ros
 }  // namespace openrobotics
 
-#endif  // OPENROBOTICS_DARKNET_ROS__DARKNET_NODE_HPP_
+#endif  // OPENROBOTICS_DARKNET_ROS__DETECTOR_NODE_HPP_

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <openrobotics_darknet_ros/network.hpp>
+#include <openrobotics_darknet_ros/detector_network.hpp>
 
 #include <fstream>
 #include <sstream>
@@ -26,12 +26,12 @@ namespace openrobotics
 {
 namespace darknet_ros
 {
-class NetworkPrivate
+class DetectorNetworkPrivate
 {
 public:
-  NetworkPrivate() {}
+  DetectorNetworkPrivate() {}
 
-  ~NetworkPrivate()
+  ~DetectorNetworkPrivate()
   {
     if (network_) {
       free_network(network_);
@@ -45,11 +45,11 @@ public:
   std::vector<std::string> class_names_;
 };
 
-Network::Network(
+DetectorNetwork::DetectorNetwork(
     const std::string & config_file,
     const std::string & weights_file,
     const std::vector<std::string> & classes)
-  : impl_(new NetworkPrivate())
+  : impl_(new DetectorNetworkPrivate())
 {
   if (!std::ifstream(config_file)) {
     std::stringstream str;
@@ -88,17 +88,17 @@ Network::Network(
   size_t num_classes = static_cast<size_t>(num_classes_int);
   if (num_classes != classes.size()) {
     std::stringstream str;
-    str << "Network expects " << num_classes << " class names but was given " << classes.size();
+    str << "DetectorNetwork expects " << num_classes << " class names but was given " << classes.size();
     throw std::invalid_argument(str.str());
   }
 }
 
-Network::~Network()
+DetectorNetwork::~DetectorNetwork()
 {
 }
 
 size_t
-Network::detect(
+DetectorNetwork::detect(
     const sensor_msgs::msg::Image & image_msg,
     double threshold,
     double nms_threshold,

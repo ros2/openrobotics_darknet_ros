@@ -14,7 +14,7 @@
 
 #include <gtest/gtest.h>
 
-#include <openrobotics_darknet_ros/network.hpp>
+#include <openrobotics_darknet_ros/detector_network.hpp>
 
 TEST(network, config_does_not_exist)
 {
@@ -23,7 +23,7 @@ TEST(network, config_does_not_exist)
   std::vector<std::string> classes{"foo", "bar"};
 
   try {
-    openrobotics::darknet_ros::Network network(config, weights, classes);
+    openrobotics::darknet_ros::DetectorNetwork network(config, weights, classes);
     ASSERT_TRUE(false);
   } catch (const std::invalid_argument &) {
   }

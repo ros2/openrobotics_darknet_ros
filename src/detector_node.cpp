@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include <openrobotics_darknet_ros/detector_node.hpp>
-#include <openrobotics_darknet_ros/network.hpp>
+#include <openrobotics_darknet_ros/detector_network.hpp>
 #include <openrobotics_darknet_ros/parse.hpp>
 
 #include <darknet_vendor/darknet_vendor.h>
@@ -71,7 +71,7 @@ public:
     return result;
   }
 
-  std::unique_ptr<Network> network_;
+  std::unique_ptr<DetectorNetwork> network_;
   rclcpp::Publisher<vision_msgs::msg::Detection2DArray>::SharedPtr detections_pub_;
   rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr image_sub_;
 
@@ -139,7 +139,7 @@ DetectorNode::DetectorNode(rclcpp::NodeOptions options)
   // TODO(sloretz) raise if user tried to initialize node with undeclared parameters
 
   std::vector<std::string> class_names = parse_class_names(network_class_names_path);
-  impl_->network_.reset(new Network(network_config_path, network_weights_path, class_names));
+  impl_->network_.reset(new DetectorNetwork(network_config_path, network_weights_path, class_names));
 
   // Ouput topic ~/detections [vision_msgs/msg/Detection2DArray]
   impl_->detections_pub_ = this->create_publisher<vision_msgs::msg::Detection2DArray>(

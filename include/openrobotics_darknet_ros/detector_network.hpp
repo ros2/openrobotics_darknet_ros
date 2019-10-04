@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef OPENROBOTICS_DARKNET_ROS__NETWORK_HPP_
-#define OPENROBOTICS_DARKNET_ROS__NETWORK_HPP_
+#ifndef OPENROBOTICS_DARKNET_ROS__DETECTOR_NETWORK_HPP_
+#define OPENROBOTICS_DARKNET_ROS__DETECTOR_NETWORK_HPP_
 
 #include <memory>
 #include <string>
@@ -29,9 +29,9 @@ namespace openrobotics
 namespace darknet_ros
 {
 // Forward declaration
-class NetworkPrivate;
+class DetectorNetworkPrivate;
 
-class Network
+class DetectorNetwork
 {
 public:
   /// \brief load a network from disk
@@ -39,13 +39,13 @@ public:
   /// \param[in] weights_file Path to a file containing the network's weights
   /// \param[in] classes Ordered list of class names the network can predict
   DARKNET_ROS_PUBLIC
-  Network(
+  DetectorNetwork(
     const std::string & config_file,
     const std::string & weights_file,
     const std::vector<std::string> & classes);
 
   DARKNET_ROS_PUBLIC
-  ~Network();
+  ~DetectorNetwork();
 
   /// \brief Detect objects in image
   /// \param[in] image An image to analyze
@@ -64,9 +64,9 @@ public:
     vision_msgs::msg::Detection2DArray * output_detections);
 
 private:
-  std::unique_ptr<NetworkPrivate> impl_;
+  std::unique_ptr<DetectorNetworkPrivate> impl_;
 };
 }  // namespace darknet_ros
 }  // namespace openrobotics
 
-#endif  // OPENROBOTICS_DARKNET_ROS__NETWORK_HPP_
+#endif  // OPENROBOTICS_DARKNET_ROS__DETECTOR_NETWORK_HPP_
