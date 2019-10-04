@@ -43,6 +43,13 @@ add_executable(darknet_node_main
 target_link_libraries(darknet_node_main darknet_node)
 set_target_properties(darknet_node_main PROPERTIES OUTPUT_NAME "darknet_node")
 
+if(BUILD_TESTING)
+  find_package(ament_cmake_gtest REQUIRED)
+  ament_add_gtest(test_parser test/test_parser.cpp
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/test/")
+  target_link_libraries(test_parser openrobotics_darknet_ros)
+endif()
+
 ament_export_libraries(openrobotics_darknet_ros)
 
 install(TARGETS openrobotics_darknet_ros

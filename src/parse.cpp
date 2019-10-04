@@ -35,6 +35,10 @@ parse_class_names(const std::string & filename)
       }
       break;
     }
+    if (line.empty()) {
+      // Ignore blank lines
+      continue;
+    }
     class_names.emplace_back(line);
   }
   return class_names;
