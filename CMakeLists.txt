@@ -12,11 +12,17 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 find_package(cv_bridge REQUIRED)
-find_package(darknet_vendor REQUIRED)
+find_package(Darknet REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_components REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(vision_msgs REQUIRED)
+
+include_directories(
+  ${Darknet_INCLUDE_DIR}
+)
+link_libraries(Darknet::dark)
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 add_library(openrobotics_darknet_ros SHARED
   src/detector_network.cpp
@@ -25,7 +31,6 @@ target_include_directories(openrobotics_darknet_ros PUBLIC include)
 target_compile_definitions(openrobotics_darknet_ros PRIVATE "DARKNET_ROS_BUILDING_DLL")
 ament_target_dependencies(openrobotics_darknet_ros
   cv_bridge
-  darknet_vendor
   sensor_msgs
   vision_msgs)
 

@@ -15,7 +15,7 @@
 #ifndef DARKNET_DETECTIONS_HPP_
 #define DARKNET_DETECTIONS_HPP_
 
-#include <darknet_vendor/darknet_vendor.h>
+#include <darknet.h>
 
 namespace openrobotics
 {

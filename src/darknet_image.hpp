@@ -15,7 +15,7 @@
 #ifndef DARKNET_IMAGE_HPP_
 #define DARKNET_IMAGE_HPP_
 
-#include <darknet_vendor/darknet_vendor.h>
+#include <darknet.h>
 #include <cv_bridge/cv_bridge.h>
 
 #include <memory>

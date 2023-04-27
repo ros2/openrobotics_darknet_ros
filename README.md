@@ -37,7 +37,7 @@ wget https://raw.githubusercontent.com/pjreddie/darknet/c6afc7ff1499fbbe64069e18
 Save the following as `detector_node_params.yaml`
 
 ```yaml
-/**:
+detector_node:
   ros__parameters:
     network:
       config: "./yolov3-tiny.cfg"
@@ -51,8 +51,14 @@ Save the following as `detector_node_params.yaml`
 Then run the node.
 
 ```
-ros2 run openrobotics_darknet_ros detector_node __params:=detector_node_params.yaml
+ros2 run openrobotics_darknet_ros detector_node --ros-args --params-file /your/path/to/detector_node_params.yaml
 ```
 
-The node is now running.
-Publish images on `~/images` to get the node to detect objects.
+The node is now running. Publish images on `~/images` to get the node to detect objects.
+
+You can also manually remap an external topic to the `~/images` topic with:
+
+```
+ros2 run openrobotics_darknet_ros detector_node --ros-args --params-file /world_model_ws/src/detector_node_params.yaml -r '~/images:=/your/camera/topic'
+```
+

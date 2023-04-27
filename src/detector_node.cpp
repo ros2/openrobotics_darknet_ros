@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <darknet_vendor/darknet_vendor.h>
+#include <darknet.h>
 
 #include <memory>
 #include <string>
@@ -94,30 +94,26 @@ DetectorNode::DetectorNode(rclcpp::NodeOptions options)
   network_cfg_desc.type = rcl_interfaces::msg::ParameterType::PARAMETER_STRING;
   network_cfg_desc.read_only = true;
   network_cfg_desc.name = "network.config";
-  const std::string network_config_path = declare_parameter(
-    network_cfg_desc.name,
-    rclcpp::ParameterValue(),
-    network_cfg_desc).get<std::string>();
+  network_cfg_desc.dynamic_typing = true;
+  const std::string network_config_path = declare_parameter<std::string>(
+    network_cfg_desc.name);
 
   rcl_interfaces::msg::ParameterDescriptor network_weights_desc;
   network_weights_desc.description = "Path to file describing network weights";
   network_weights_desc.type = rcl_interfaces::msg::ParameterType::PARAMETER_STRING;
   network_weights_desc.read_only = true;
   network_weights_desc.name = "network.weights";
-  const std::string network_weights_path = declare_parameter(
-    network_weights_desc.name,
-    rclcpp::ParameterValue(),
-    network_weights_desc).get<std::string>();
+  const std::string network_weights_path = declare_parameter<std::string>(
+    network_weights_desc.name);
 
   rcl_interfaces::msg::ParameterDescriptor network_class_names_desc;
   network_class_names_desc.description = "Path to file with class names (one per line)";
   network_class_names_desc.type = rcl_interfaces::msg::ParameterType::PARAMETER_STRING;
   network_class_names_desc.read_only = true;
   network_class_names_desc.name = "network.class_names";
-  const std::string network_class_names_path = declare_parameter(
-    network_class_names_desc.name,
-    rclcpp::ParameterValue(),
-    network_class_names_desc).get<std::string>();
+  network_class_names_desc.dynamic_typing = true;
+  const std::string network_class_names_path = declare_parameter<std::string>(
+    network_class_names_desc.name);
 
   impl_->threshold_desc_.description = "Minimum detection confidence [0.0, 1.0]";
   impl_->threshold_desc_.type = rcl_interfaces::msg::ParameterType::PARAMETER_DOUBLE;
@@ -136,7 +132,7 @@ DetectorNode::DetectorNode(rclcpp::NodeOptions options)
     rclcpp::ParameterValue(impl_->nms_threshold_),
     impl_->nms_threshold_desc_).get<double>();
 
-  set_on_parameters_set_callback(
+  add_on_set_parameters_callback(
     std::bind(&DetectorNodePrivate::on_parameters_change, &*impl_, std::placeholders::_1));
 
   // TODO(sloretz) raise if user tried to initialize node with undeclared parameters
