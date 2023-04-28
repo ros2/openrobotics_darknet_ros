@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(openrobotics_darknet_ros)
 
+option(DOWNLOAD_YOLO_CONFIG "Download YOLO configuration files" OFF)
+
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
@@ -75,6 +77,43 @@ install(TARGETS detector_node
 install(TARGETS detector_node_main
   DESTINATION lib/${PROJECT_NAME})
 
+if (DOWNLOAD_YOLO_CONFIG)
+  # Download weights for Yolo v3 and v7
+  # See https://pjreddie.com/darknet/yolo/
+  file(DOWNLOAD
+    https://raw.githubusercontent.com/pjreddie/darknet/master/data/coco.names
+    ${CMAKE_CURRENT_SOURCE_DIR}/config/yolo-v3-tiny/coco.names
+    SHOW_PROGRESS
+  )
+  file(DOWNLOAD
+    https://raw.githubusercontent.com/pjreddie/darknet/master/cfg/yolov3-tiny.cfg
+    ${CMAKE_CURRENT_SOURCE_DIR}/config/yolo-v3-tiny/yolov3-tiny.cfg
+    SHOW_PROGRESS
+  )
+  file(DOWNLOAD
+    https://pjreddie.com/media/files/yolov3-tiny.weights
+    ${CMAKE_CURRENT_SOURCE_DIR}/config/yolo-v3-tiny/yolov3-tiny.weights
+    SHOW_PROGRESS
+  )
+  # See https://github.com/AlexeyAB/darknet/issues/8595
+  file(DOWNLOAD
+    https://raw.githubusercontent.com/pjreddie/darknet/master/data/coco.names
+    ${CMAKE_CURRENT_SOURCE_DIR}/config/yolo-v7/coco.names
+    SHOW_PROGRESS
+  )
+  file(DOWNLOAD
+    https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov7.cfg
+    ${CMAKE_CURRENT_SOURCE_DIR}/config/yolo-v7/yolov7.cfg
+    SHOW_PROGRESS
+  )
+  file(DOWNLOAD
+    https://github.com/AlexeyAB/darknet/releases/download/yolov4/yolov7.weights
+    ${CMAKE_CURRENT_SOURCE_DIR}/config/yolo-v7/yolov7.weights
+    SHOW_PROGRESS
+  )
+endif()
+
+install(DIRECTORY config/ launch/ DESTINATION share/${PROJECT_NAME})
 install(DIRECTORY include/ DESTINATION include)
 
 ament_package()

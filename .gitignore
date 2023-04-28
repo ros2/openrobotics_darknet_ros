@@ -1,0 +1,4 @@
+config/yolo-v3-tiny/*
+!config/yolo-v3-tiny/params.yaml
+config/yolo-v7/*
+!config/yolo-v7/params.yaml

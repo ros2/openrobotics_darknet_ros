@@ -6,7 +6,7 @@ This is a ROS 2 wrapper around [darknet](https://pjreddie.com/darknet), an open 
 
 ## DetectorNode
 
-This node can run object detectors like [YOLOv3](https://pjreddie.com/darknet/yolo/) on images.
+This node can run **object detectors** like [YOLO v3](https://pjreddie.com/darknet/yolo/) or [YOLO v7](https://github.com/WongKinYiu/yolov7) on images and video streams.
 
 ### Subscribers
 
@@ -24,17 +24,17 @@ This node can run object detectors like [YOLOv3](https://pjreddie.com/darknet/yo
 * `detection.threshold` - Minimum probability of a detection to be published
 * `detection.nms_threshold` - Non-maximal Suppression threshold - controls filtering of overlapping boxes
 
-### Example
+### Launching
 
-Download `YOLOv3-tiny`.
+When compiling the package with
 
-```
-wget https://raw.githubusercontent.com/pjreddie/darknet/f86901f6177dfc6116360a13cc06ab680e0c86b0/cfg/yolov3-tiny.cfg
-wget https://pjreddie.com/media/files/yolov3-tiny.weights
-wget https://raw.githubusercontent.com/pjreddie/darknet/c6afc7ff1499fbbe64069e1843d7929bd7ae2eaa/data/coco.names
+```bash
+colcon build --cmake-args -DDOWNLOAD_YOLO_CONFIG=ON
 ```
 
-Save the following as `detector_node_params.yaml`
+CMake will download the pretrained YOLO v3 and v7 configuration files to the `config` folder.
+
+Alternatively can train YOLO to detect custom objects like described [here](https://github.com/AlexeyAB/darknet#how-to-train-tiny-yolo-to-detect-your-custom-objects) and save the following as `detector_node_params.yaml`:
 
 ```yaml
 detector_node:
@@ -48,13 +48,13 @@ detector_node:
       nms_threshold: 0.45
 ```
 
-Then run the node.
+Finally you can run the detector node with
 
 ```
 ros2 run openrobotics_darknet_ros detector_node --ros-args --params-file /your/path/to/detector_node_params.yaml
 ```
 
-The node is now running. Publish images on `~/images` to get the node to detect objects.
+and publish images on `~/images` to get the node to detect objects.
 
 You can also manually remap an external topic to the `~/images` topic with:
 
