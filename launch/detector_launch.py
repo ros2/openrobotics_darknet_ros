@@ -15,7 +15,7 @@ def generate_launch_description():
 
     default_detector_parameter_file = os.path.join(
         get_package_share_directory('openrobotics_darknet_ros'),
-        'yolo-v7',
+        'yolo-v7-tiny',
         'params.yaml'
     )
     detector_parameters_cmd = DeclareLaunchArgument(
