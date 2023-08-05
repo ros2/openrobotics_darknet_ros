@@ -20,12 +20,6 @@ find_package(rclcpp_components REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(vision_msgs REQUIRED)
 
-include_directories(
-  ${Darknet_INCLUDE_DIR}
-)
-link_libraries(Darknet::dark)
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-
 add_library(openrobotics_darknet_ros SHARED
   src/detector_network.cpp
   src/parse.cpp)
@@ -35,6 +29,9 @@ ament_target_dependencies(openrobotics_darknet_ros
   cv_bridge
   sensor_msgs
   vision_msgs)
+target_link_libraries(openrobotics_darknet_ros Darknet::dark)
+# Necessary as Darknet currently does not install to ./install/darknet/libdarknet.so
+set_target_properties(openrobotics_darknet_ros PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 add_library(detector_node SHARED
   src/detector_node.cpp)
@@ -83,6 +80,7 @@ if (DOWNLOAD_YOLO_CONFIG)
 endif()
 
 install(DIRECTORY config/ launch/ DESTINATION share/${PROJECT_NAME})
+install(DIRECTORY config/ DESTINATION share/${PROJECT_NAME}/config)
 install(DIRECTORY include/ DESTINATION include)
 
 ament_package()
