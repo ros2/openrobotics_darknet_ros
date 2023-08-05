@@ -1,6 +1,6 @@
 # Open Robotics Darknet ROS
 
-This is a ROS 2 wrapper around [darknet](https://pjreddie.com/darknet), an open source neural network framework.
+This is a **ROS 2 wrapper around [darknet](https://pjreddie.com/darknet)**, an open source neural network framework.
 
 ![Example image with bounding boxes created using darknet and the yolov3-tiny network](doc/example_darknet_yolov3-tiny.png)
 
@@ -24,25 +24,37 @@ This node can run **object detectors** like [YOLO v3](https://pjreddie.com/darkn
 * `detection.threshold` - Minimum probability of a detection to be published
 * `detection.nms_threshold` - Non-maximal Suppression threshold - controls filtering of overlapping boxes
 
+## Dependencies
+
+This package depends on [darknet](https://github.com/AlexeyAB/darknet). If you can't use CUDA but want to use your CPU instead make sure to build it with the flag `-DENABLE_CUDA=OFF` and potentially also disabling multi-threading with `-DCMAKE_DISABLE_FIND_PACKAGE_OpenMP=TRUE`.
+
 ### Launching
 
-When compiling the package with
+Compiling this package with
 
 ```bash
-colcon build --cmake-args -DDOWNLOAD_YOLO_CONFIG=ON
+$ colcon build --cmake-args -DDOWNLOAD_YOLO_CONFIG=ON
 ```
 
-CMake will download the pretrained YOLO v3 and v7 configuration files to the `config` folder.
+will automatically download the pretrained YOLO v3, v4 and v7 configuration files.
 
-Alternatively can train YOLO to detect custom objects like described [here](https://github.com/AlexeyAB/darknet#how-to-train-tiny-yolo-to-detect-your-custom-objects) and save the following as `detector_node_params.yaml`:
+You can then launch the detector node with
+
+```bash
+$ ros2 launch openrobotics_darknet_ros detector_launch.py rgb_image:=/topic
+```
+
+optionally supplying a desired parameter file `detector_parameters:=path/to/detector_node_params.yaml`.
+
+You can also train YOLO to detect custom objects like described [here](https://github.com/AlexeyAB/darknet#how-to-train-tiny-yolo-to-detect-your-custom-objects) and create the following as `detector_node_params.yaml`:
 
 ```yaml
-detector_node:
+/**:
   ros__parameters:
     network:
-      config: "./yolov3-tiny.cfg"
-      weights: "./yolov3-tiny.weights"
-      class_names: "./coco.names"
+      config: "./your-yolo-config.cfg"
+      weights: "./your-yolo-weights.weights"
+      class_names: "./your-cocos.names"
     detection:
       threshold: 0.25
       nms_threshold: 0.45
@@ -50,15 +62,13 @@ detector_node:
 
 Finally you can run the detector node with
 
-```
-ros2 run openrobotics_darknet_ros detector_node --ros-args --params-file /your/path/to/detector_node_params.yaml
+```bash
+$ ros2 run openrobotics_darknet_ros detector_node --ros-args --params-file path/to/detector_node_params.yaml
 ```
 
-and publish images on `~/images` to get the node to detect objects.
+and publish images on `~/images` to get the node to detect objects. You can also manually remap an external topic to the `~/images` topic with:
 
-You can also manually remap an external topic to the `~/images` topic with:
-
-```
-ros2 run openrobotics_darknet_ros detector_node --ros-args --params-file /world_model_ws/src/detector_node_params.yaml -r '~/images:=/your/camera/topic'
+```bash
+$ ros2 run openrobotics_darknet_ros detector_node --ros-args --params-file path/to/detector_node_params.yaml -r '~/images:=/your/camera/topic'
 ```
 
