@@ -19,6 +19,7 @@
 #include <string>
 
 #include "rclcpp/node.hpp"
+#include "rclcpp/node_interfaces/node_parameters_interface.hpp"
 #include "openrobotics_darknet_ros/visibility_node.hpp"
 
 
@@ -41,6 +42,7 @@ public:
 
 private:
   std::unique_ptr<DetectorNodePrivate> impl_;
+  rclcpp::node_interfaces::OnSetParametersCallbackHandle::SharedPtr param_callback_handle_;
 };
 }  // namespace darknet_ros
 }  // namespace openrobotics

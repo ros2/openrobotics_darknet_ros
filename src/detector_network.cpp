@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <darknet_vendor/darknet_vendor.h>
+#include <darknet.h>
 
 #include <fstream>
 #include <memory>
@@ -36,7 +36,7 @@ public:
   ~DetectorNetworkPrivate()
   {
     if (network_) {
-      free_network(network_);
+      free_network_ptr(network_);
       network_ = nullptr;
     }
   }
@@ -113,7 +113,7 @@ DetectorNetwork::detect(
     letterbox_image(orig_image.image_, impl_->network_->w, impl_->network_->h));
 
   // Ask network to make predictions
-  network_predict(impl_->network_, resized_image.image_.data);
+  network_predict_ptr(impl_->network_, resized_image.image_.data);
 
   // Get predictions from network
   int num_detections = 0;
@@ -121,10 +121,11 @@ DetectorNetwork::detect(
   const float hier = 0;
   int * map = nullptr;
   const int relative = 0;
+  static const int letter = 1;
   detection * darknet_detections = get_network_boxes(
     impl_->network_, image_msg.width, image_msg.height, threshold,
     hier, map, relative,
-    &num_detections);
+    &num_detections, letter);
 
   if (num_detections <= 0) {
     return 0;
@@ -151,8 +152,8 @@ DetectorNetwork::detect(
       if (detection.prob[cls] > 0.0f) {
         detection_ros.results.emplace_back();
         auto & hypothesis = detection_ros.results.back();
-        hypothesis.id = impl_->class_names_.at(cls);
-        hypothesis.score = detection.prob[cls];
+        hypothesis.hypothesis.class_id = impl_->class_names_.at(cls);
+        hypothesis.hypothesis.score = detection.prob[cls];
       }
     }
 
@@ -163,8 +164,8 @@ DetectorNetwork::detect(
     }
 
     // Copy bounding box, darknet uses center of bounding box too
-    detection_ros.bbox.center.x = detection.bbox.x;
-    detection_ros.bbox.center.y = detection.bbox.y;
+    detection_ros.bbox.center.position.x = detection.bbox.x;
+    detection_ros.bbox.center.position.y = detection.bbox.y;
     detection_ros.bbox.size_x = detection.bbox.w;
     detection_ros.bbox.size_y = detection.bbox.h;
   }

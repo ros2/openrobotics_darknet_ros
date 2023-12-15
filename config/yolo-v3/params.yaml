@@ -1,0 +1,9 @@
+/**:
+  ros__parameters:
+    network:
+      config: "$(find-pkg-share openrobotics_darknet_ros)/config/yolo-v3/yolov3.cfg"
+      weights: "$(find-pkg-share openrobotics_darknet_ros)/config/yolo-v3/yolov3.weights"
+      class_names: "$(find-pkg-share openrobotics_darknet_ros)/config/yolo-v3/coco.names"
+    detection:
+      threshold: 0.25
+      nms_threshold: 0.45

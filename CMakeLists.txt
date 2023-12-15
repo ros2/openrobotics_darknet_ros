@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(openrobotics_darknet_ros)
 
+option(DOWNLOAD_YOLO_CONFIG "Download YOLO configuration files" OFF)
+
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
@@ -12,7 +14,7 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 find_package(cv_bridge REQUIRED)
-find_package(darknet_vendor REQUIRED)
+find_package(Darknet REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_components REQUIRED)
 find_package(sensor_msgs REQUIRED)
@@ -25,9 +27,11 @@ target_include_directories(openrobotics_darknet_ros PUBLIC include)
 target_compile_definitions(openrobotics_darknet_ros PRIVATE "DARKNET_ROS_BUILDING_DLL")
 ament_target_dependencies(openrobotics_darknet_ros
   cv_bridge
-  darknet_vendor
   sensor_msgs
   vision_msgs)
+target_link_libraries(openrobotics_darknet_ros Darknet::dark)
+# Necessary as Darknet currently does not install to ./install/darknet/libdarknet.so
+set_target_properties(openrobotics_darknet_ros PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 add_library(detector_node SHARED
   src/detector_node.cpp)
@@ -70,6 +74,13 @@ install(TARGETS detector_node
 install(TARGETS detector_node_main
   DESTINATION lib/${PROJECT_NAME})
 
+# Download weights for Yolo v3, v4 and v7
+if (DOWNLOAD_YOLO_CONFIG)
+  include(ConfigDownload.cmake)
+endif()
+
+install(DIRECTORY config/ launch/ DESTINATION share/${PROJECT_NAME})
+install(DIRECTORY config/ DESTINATION share/${PROJECT_NAME}/config)
 install(DIRECTORY include/ DESTINATION include)
 
 ament_package()

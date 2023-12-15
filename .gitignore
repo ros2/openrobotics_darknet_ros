@@ -1,0 +1,12 @@
+config/yolo-v3/*
+!config/yolo-v3/params.yaml
+config/yolo-v3-tiny/*
+!config/yolo-v3-tiny/params.yaml
+config/yolo-v4/*
+!config/yolo-v4/params.yaml
+config/yolo-v4-tiny/*
+!config/yolo-v4-tiny/params.yaml
+config/yolo-v7/*
+!config/yolo-v7/params.yaml
+config/yolo-v7-tiny/*
+!config/yolo-v7-tiny/params.yaml
