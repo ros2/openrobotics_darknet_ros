@@ -80,8 +80,9 @@ DetectorNetwork::DetectorNetwork(
   }
 
   // TODO(sloretz) what is this and why do examples set it?
-  const int batch = 1;
-  set_batch_network(impl_->network_, batch);
+  // TODO(bracoe) Check what this did. Has been moved to private API in darknet but works without it.
+  //const int batch = 1;
+  //set_batch_network(impl_->network_, batch);
 
   const int num_classes_int = impl_->network_->layers[impl_->network_->n - 1].classes;
   if (num_classes_int <= 0) {
