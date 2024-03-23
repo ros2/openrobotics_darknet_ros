@@ -72,7 +72,7 @@ DetectorNetwork::DetectorNetwork(
   }
 
   // what does this call do? https://github.com/stephanecharette/DarkHelp/blob/master/src-lib/DarkHelpNN.cpp#L202
-	calculate_binary_weights(*impl_->network_);
+  calculate_binary_weights(*impl_->network_);
 
   const int num_classes_int = impl_->network_->layers[impl_->network_->n - 1].classes;
   if (num_classes_int <= 0) {
