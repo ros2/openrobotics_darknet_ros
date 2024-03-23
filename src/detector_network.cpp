@@ -64,25 +64,15 @@ DetectorNetwork::DetectorNetwork(
   }
 
   impl_->class_names_ = classes;
-
-  // Make copies because of darknet's lack of const
-  std::unique_ptr<char> config_mutable(new char[config_file.size() + 1]);
-  std::unique_ptr<char> weights_mutable(new char[weights_file.size() + 1]);
-  snprintf(&*config_mutable, config_file.size() + 1, "%s", config_file.c_str());
-  snprintf(&*weights_mutable, weights_file.size() + 1, "%s", weights_file.c_str());
-
-  const int clear = 0;
-  impl_->network_ = load_network(&*config_mutable, &*weights_mutable, clear);
+  impl_->network_ = load_network_custom(const_cast<char*>(config_file.c_str()), const_cast<char*>(weights_file.c_str()), 1, 1);
   if (nullptr == impl_->network_) {
     std::stringstream str;
     str << "Failed to load network from " << config_file << " and " << weights_file;
     throw std::invalid_argument(str.str());
   }
 
-  // TODO(sloretz) what is this and why do examples set it?
-  // TODO(bracoe) Check what this did. Has been moved to private API in darknet but works without it.
-  //const int batch = 1;
-  //set_batch_network(impl_->network_, batch);
+  // what does this call do? https://github.com/stephanecharette/DarkHelp/blob/master/src-lib/DarkHelpNN.cpp#L202
+	calculate_binary_weights(*impl_->network_);
 
   const int num_classes_int = impl_->network_->layers[impl_->network_->n - 1].classes;
   if (num_classes_int <= 0) {
