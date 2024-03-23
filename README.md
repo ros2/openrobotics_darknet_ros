@@ -1,6 +1,6 @@
 # Open Robotics Darknet ROS
 
-This is a **ROS 2 wrapper around [darknet](https://pjreddie.com/darknet)**, an open source neural network framework.
+This is a **ROS 2 wrapper around [darknet](https://github.com/hank-ai/darknet)**, an open source neural network framework.
 
 ![Example image with bounding boxes created using darknet and the yolov3-tiny network](doc/example_darknet_yolov3-tiny.png)
 
